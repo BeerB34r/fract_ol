@@ -1,13 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                         ::::::::           */
+/*   main.c                                              :+:    :+:           */
+/*                                                      +:+                   */
+/*   By: mde-beer <marvin@42.fr>                       +#+                    */
+/*                                                    +#+                     */
+/*   Created: 2024/11/04 17:23:48 by mde-beer       #+#    #+#                */
+/*   Updated: 2024/11/04 17:26:44 by mde-beer       ########   odam.nl        */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fract_ol.h>
 #include <unistd.h>
-#include <fcntrl.h>
+#include <fcntl.h>
 #include <stdlib.h>
-#include <get_next_line.h>
 #include <libft.h>
-
 #define OPTIONS_FILE "fract_ol_options.md"
 
-int	display_options(const char *file) 
+int	display_options(const char *file)
 {
 	const int	fd = open(file, O_RDONLY);
 	char		*string;
@@ -22,19 +32,20 @@ int	display_options(const char *file)
 	close(fd);
 	return (0);
 }
-
-t_fract_ol_opts	get_fract_ol_opts(const int argc, const char **argv)// TODO make this complete
+/* TODO make this
+t_fract_opts	get_fract_opts(const int argc, const char **argv)
 {
 	int	current;
-	t_fract_ol_opts	opts;
+	t_fract_opts	opts;
 
 	current = 1;
 	while (current < argc)
 	{
 		if (argv[current][0] == '-')
+			exit(0);
 	}
 }
-
+*/
 void	attach_hooks(t_mlx_box *box)
 {
 	mlx_hook(box->window, 17, 0, stop_window, box);

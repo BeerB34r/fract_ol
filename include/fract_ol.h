@@ -6,7 +6,7 @@
 /*   By: mde-beer <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/02 19:44:16 by mde-beer       #+#    #+#                */
-/*   Updated: 2024/11/04 14:21:05 by mde-beer       ########   odam.nl        */
+/*   Updated: 2024/11/04 17:37:06 by mde-beer       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_complex_number
 
 typedef union u_argb_val
 {
-	uint32_t	value;
+	uint32_t	val;
 	struct
 	{
 		unsigned char	b;
@@ -46,20 +46,8 @@ typedef struct s_mlx_values
 	int				pixel_bits;
 	int				image_width;
 	int				endian;
+	t_argb			*gradient;
 }	t_mlx_box;
-
-typedef union u_palette
-{
-	t_argb	palette[5];
-	struct
-	{
-		t_argb	a;
-		t_argb	b;
-		t_argb	c;
-		t_argb	d;
-		t_argb	e;
-	};
-}	t_palette;
 
 typedef struct s_fract_ol_options
 {
@@ -92,9 +80,12 @@ int			change_zoom(t_mlx_box *box, int direction);
 int			move_center(t_mlx_box *box, t_complex vector);
 t_complex	coords_to_complex(t_mlx_box box, int x, int y);
 // mlx window helpers
-t_mlx_box	start_window(int h, int w, char *title);
+t_mlx_box	start_window(int h, int w, char *title, t_argb *colors);
 int			stop_window(t_mlx_box *box);
 void		color_pixel(t_argb color, t_mlx_box box, int x, int y);
+int			key_event(int keycode, t_mlx_box *box);
+t_argb		*get_palette(void);
+t_argb		*get_gradient(t_argb colors[NUM_COLORS]);
 // complex number arithmetic
 t_complex	multiply(t_complex a, t_complex b);
 t_complex	add(t_complex a, t_complex b);

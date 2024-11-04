@@ -6,7 +6,7 @@
 /*   By: mde-beer <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/04 10:35:00 by mde-beer       #+#    #+#                */
-/*   Updated: 2024/11/04 14:18:33 by mde-beer       ########   odam.nl        */
+/*   Updated: 2024/11/04 17:36:20 by mde-beer       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <libft.h>
 #include <stdlib.h>
 
-t_argb *const	get_palette(void)
+t_argb	*get_palette(void)
 {
 	t_argb *const	palette = ft_calloc(NUM_COLORS, sizeof(t_argb));
 
@@ -28,7 +28,7 @@ t_argb *const	get_palette(void)
 	return (palette);
 }
 
-t_argb *const	get_gradient(t_argb colors[NUM_COLORS])
+t_argb	*get_gradient(t_argb colors[NUM_COLORS])
 {
 	t_argb *const	gradient = ft_calloc(MAX_ITER, sizeof(t_argb));
 	int				step;
@@ -42,12 +42,12 @@ t_argb *const	get_gradient(t_argb colors[NUM_COLORS])
 		while (i < COLOR_STEP)
 		{
 			ratio = (double)i / COLOR_STEP;
-			gradient[step * COLOR_STEP + i].r = (unsigned char)(colors[step] + \
-						ratio * (colors[step + 1].r - colors[step].r));
-			gradient[step * COLOR_STEP + i].r = (unsigned char)(colors[step] + \
-						ratio * (colors[step + 1].g - colors[step].g));
-			gradient[step * COLOR_STEP + i].r = (unsigned char)(colors[step] + \
-						ratio * (colors[step + 1].b - colors[step].b));
+			gradient[step * COLOR_STEP + i].r = (unsigned char)(colors[step].r \
+							+ ratio * (colors[step + 1].r - colors[step].r));
+			gradient[step * COLOR_STEP + i].g = (unsigned char)(colors[step].g \
+							+ ratio * (colors[step + 1].g - colors[step].g));
+			gradient[step * COLOR_STEP + i].b = (unsigned char)(colors[step].b \
+							+ ratio * (colors[step + 1].b - colors[step].b));
 			gradient[step * COLOR_STEP + i].a = 255;
 			i++;
 		}
