@@ -6,7 +6,7 @@
 /*   By: mde-beer <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/04 17:23:48 by mde-beer       #+#    #+#                */
-/*   Updated: 2024/11/04 17:26:44 by mde-beer       ########   odam.nl        */
+/*   Updated: 2024/11/04 18:25:01 by mde-beer       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,35 +17,51 @@
 #include <libft.h>
 #define OPTIONS_FILE "fract_ol_options.md"
 
-int	display_options(const char *file)
+void	render_fractal(t_mlx_box box)
 {
-	const int	fd = open(file, O_RDONLY);
-	char		*string;
+	int			x;
+	int			y;
+	int			val;
+	t_argb		color;
+	t_complex	coord;
 
-	string = get_next_line(fd);
-	while (string)
+	mlx_clear_window(box.base, box.window);
+	x = -1;
+	while (++x < box.w)
 	{
-		write(1, string, ft_strlen(string));
-		free(string);
-		string = get_next_line(fd);
+		y = -1;
+		while (++y < box.h)
+		{
+			coord = coords_to_complex(box, x, y);
+			val = calc_julia(coord, (t_complex){.r=-0.8, .i=0.156});
+			color = box.gradient[val];
+			color_pixel(color, box, x, y);
+		}
 	}
-	close(fd);
-	return (0);
+	mlx_put_image_to_window(box.base, box.window, box.image, 0, 0);
 }
-/* TODO make this
-t_fract_opts	get_fract_opts(const int argc, const char **argv)
+
+int	key_event(int keycode, t_mlx_box *box)
 {
-	int	current;
-	t_fract_opts	opts;
-
-	current = 1;
-	while (current < argc)
-	{
-		if (argv[current][0] == '-')
-			exit(0);
-	}
+	if (keycode == 65307) // esc
+		return (stop_window(box));
+	if (keycode == 65361) // <-
+		return (move_center(box, (t_complex){-1, 0}));
+	if (keycode == 65363) // ->
+		return (move_center(box, (t_complex){1, 0}));
+	if (keycode == 65362) // ^
+		return (move_center(box, (t_complex){0, -1}));
+	if (keycode == 65364) // down
+		return (move_center(box, (t_complex){0, 1}));
+	if (keycode == 65451)
+		return (change_zoom(box, -1));
+	if (keycode == 65453)
+		return (change_zoom(box, 1));
+	if (keycode == 'r')
+		return (change_zoom(box, 0));
+	return (1);
 }
-*/
+
 void	attach_hooks(t_mlx_box *box)
 {
 	mlx_hook(box->window, 17, 0, stop_window, box);

@@ -6,12 +6,13 @@
 /*   By: mde-beer <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/04 10:35:00 by mde-beer       #+#    #+#                */
-/*   Updated: 2024/11/04 17:36:20 by mde-beer       ########   odam.nl        */
+/*   Updated: 2024/11/04 18:17:36 by mde-beer       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fract_ol.h>
 #include <libft.h>
+#include <mlx.h>
 #include <stdlib.h>
 
 t_argb	*get_palette(void)
