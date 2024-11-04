@@ -6,11 +6,11 @@
 /*   By: mde-beer <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/02 19:28:13 by mde-beer       #+#    #+#                */
-/*   Updated: 2024/11/02 21:46:15 by mde-beer       ########   odam.nl        */
+/*   Updated: 2024/11/04 14:21:47 by mde-beer       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fract_ol.h"
+#include <fract_ol.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <math.h>
@@ -41,6 +41,7 @@ void	render_fractal(t_mlx_box box)
 	int			x;
 	int			y;
 	int			val;
+	t_argb		color;
 	t_complex	coord;
 
 	mlx_clear_window(box.base, box.window);
@@ -52,7 +53,8 @@ void	render_fractal(t_mlx_box box)
 		{
 			coord = coords_to_complex(box, x, y);
 			val = calc_julia(coord, (t_complex){.r=-0.8, .i=0.156});
-			color_pixel((t_argb){0x00FFFF00 + val}, box, x, y);
+			color.value = (255 - val) + (val << 8) + (255 - (val << 16));
+			color_pixel(color, box, x, y);
 		}
 	}
 	mlx_put_image_to_window(box.base, box.window, box.image, 0, 0);

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                         ::::::::           */
-/*   test.h                                              :+:    :+:           */
+/*   fract_ol.h                                          :+:    :+:           */
 /*                                                      +:+                   */
 /*   By: mde-beer <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/02 19:44:16 by mde-beer       #+#    #+#                */
-/*   Updated: 2024/11/02 21:12:42 by mde-beer       ########   odam.nl        */
+/*   Updated: 2024/11/04 14:21:05 by mde-beer       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACT_OL_H
 # define FRACT_OL_H
-# include "./minilibx-linux/mlx.h"
+# include <mlx.h>
 # include <stdint.h>
 
 typedef struct s_complex_number
@@ -26,10 +26,10 @@ typedef union u_argb_val
 	uint32_t	value;
 	struct
 	{
-		unsigned char	a;
-		unsigned char	r;
-		unsigned char	g;
 		unsigned char	b;
+		unsigned char	g;
+		unsigned char	r;
+		unsigned char	a;
 	};
 }	t_argb;
 
@@ -48,6 +48,19 @@ typedef struct s_mlx_values
 	int				endian;
 }	t_mlx_box;
 
+typedef union u_palette
+{
+	t_argb	palette[5];
+	struct
+	{
+		t_argb	a;
+		t_argb	b;
+		t_argb	c;
+		t_argb	d;
+		t_argb	e;
+	};
+}	t_palette;
+
 typedef struct s_fract_ol_options
 {
 	int	(*formula)(t_complex, t_complex);
@@ -59,13 +72,21 @@ typedef struct s_fract_ol_options
 # define ZOOM_DEFAULT 1.0
 # define ZOOM_MAGNITUDE 1.2
 # define MOVE_MAGNITUDE 0.1
+# define COLR1 0xFFBE0B
+# define COLR2 0xFB5607
+# define COLR3 0xFF006E
+# define COLR4 0x8338EC
+# define COLR5 0x3A86FF
+# define NUM_COLORS 5
 # define MAX_ITER 255
+# define COLOR_STEP 51 // MAX_COLORS / NUM_COLOR
+
 // fractals
-void	render_fractal(t_mlx_box box);
-int	calc_julia(t_complex point, t_complex constant);
-int	calc_mandelbrot(t_complex point, t_complex constant);
-int	calc_burning_ship(t_complex point, t_complex constant);
-int	calc_lyupanov(t_complex point, t_mlx_box box);
+void		render_fractal(t_mlx_box box);
+int			calc_julia(t_complex point, t_complex constant);
+int			calc_mandelbrot(t_complex point, t_complex constant);
+int			calc_burning_ship(t_complex point, t_complex constant);
+int			calc_lyupanov(t_complex point, t_mlx_box box);
 // movement functions
 int			change_zoom(t_mlx_box *box, int direction);
 int			move_center(t_mlx_box *box, t_complex vector);
