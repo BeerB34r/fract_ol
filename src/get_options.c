@@ -6,7 +6,7 @@
 /*   By: mde-beer <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/05 14:45:13 by mde-beer       #+#    #+#                */
-/*   Updated: 2024/11/06 12:10:55 by mde-beer       ########   odam.nl        */
+/*   Updated: 2024/11/06 14:53:12 by mde-beer       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
-
 
 void	get_geometry(t_fract_opts *options, char **argv, int argc, int *index)
 {
@@ -72,14 +71,12 @@ void	display_options(void)
 	exit(0);
 }
 
-t_fract_opts	get_options(int argc, char **argv)
+t_fract_opts	get_options(int argc, char **argv, int index)
 {
 	t_fract_opts	options;
-	int				index;
 
 	if (argc < 3)
 		display_options();
-	index = 1;
 	options.parameters.julia = falsey;
 	if (index < argc && !ft_strncmp(argv[index], "-g", 2))
 		get_geometry(&options, argv, argc, &index);

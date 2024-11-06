@@ -6,7 +6,7 @@
 /*   By: mde-beer <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/05 14:17:25 by mde-beer       #+#    #+#                */
-/*   Updated: 2024/11/06 11:59:01 by mde-beer       ########   odam.nl        */
+/*   Updated: 2024/11/06 14:40:03 by mde-beer       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,9 @@ static void	get_burning_consts(t_fract_opts *options, \
 
 void	set_constants(t_fract_opts *options)
 {
-	int	bypass = 1;
+	int	bypass;
 
+	bypass = 1;
 	options->parameters.julia = falsey;
 	if (options->parameters.fractal == lyapunov)
 		return (get_lyapunov_consts(options, NULL, -1, &bypass));

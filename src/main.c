@@ -6,7 +6,7 @@
 /*   By: mde-beer <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/04 17:23:48 by mde-beer       #+#    #+#                */
-/*   Updated: 2024/11/06 13:22:49 by mde-beer       ########   odam.nl        */
+/*   Updated: 2024/11/06 14:52:28 by mde-beer       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	init_fract_ol(t_fract_opts options) // TODO make this less shit
 
 int	main(int argc, char **argv) // TODO make this less shit
 {
-	const t_fract_opts	options = get_options(argc, argv);
+	const t_fract_opts	options = get_options(argc, argv, 1);
 
 	init_fract_ol(options);
 }
