@@ -1,5 +1,5 @@
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -O3 -g
+CFLAGS		=	-Wall -Wextra -Werror -O3
 SRC_LIT		=	main.c fractals.c window_utils.c movement.c \
 				complex_math.c hooks.c get_options.c get_constants.c ft_atold.c
 SRC_DIR		=	src
@@ -14,14 +14,16 @@ NAME		=	fract_ol.out
 
 all			:	$(NAME)
 
-$(NAME)		:	$(OBJS) createlibs
+$(NAME)		:	$(OBJS) $(LIBS)
 			$(CC) $(CFLAGS) $(INCL) $(OBJS) $(LIBS) -o $@
 
 %.o			:	%.c
 			$(CC) $(CFLAGS) -o $@ -c $^ $(INCL)
 
-createlibs	:
+$(LIBFT)	:
 			make -C ./libft
+
+$(LIBMLX)	:			
 			make -C ./libmlx
 
 fclean		:	clean
@@ -36,4 +38,4 @@ clean		:
 
 re			:	fclean all
 
-.PHONY		:	fclean clean all re createlibs
+.PHONY		:	fclean clean all re
