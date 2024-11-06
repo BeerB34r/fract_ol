@@ -6,7 +6,7 @@
 /*   By: mde-beer <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/02 19:44:16 by mde-beer       #+#    #+#                */
-/*   Updated: 2024/11/06 12:59:20 by mde-beer       ########   odam.nl        */
+/*   Updated: 2024/11/06 15:43:01 by mde-beer       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void			get_fractal(t_fract_opts *options, \
 void			get_constants(t_fract_opts *options, \
 								char **argv, int argc, int *index);
 void			set_constants(t_fract_opts *options);
-t_fract_opts	get_options(int argc, char **argv);
+t_fract_opts	get_options(int argc, char **argv, int index);
 // fractals
 void			render_fractal(t_mlx_box box);
 int				calc_julia(t_complex point, t_complex constant);
