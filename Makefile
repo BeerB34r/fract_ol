@@ -1,6 +1,7 @@
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -O3
-SRC_LIT		=	main.c fractals.c window_utils.c movement.c complex_math.c
+CFLAGS		=	-Wall -Wextra -Werror -O3 -g
+SRC_LIT		=	main.c fractals.c window_utils.c movement.c \
+				complex_math.c hooks.c get_options.c get_constants.c ft_atold.c
 SRC_DIR		=	src
 SRCS		=	$(addprefix $(SRC_DIR)/,$(SRC_LIT))
 OBJS		=	$(SRCS:.c=.o)

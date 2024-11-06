@@ -6,7 +6,7 @@
 /*   By: mde-beer <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/04 10:35:00 by mde-beer       #+#    #+#                */
-/*   Updated: 2024/11/04 18:17:36 by mde-beer       ########   odam.nl        */
+/*   Updated: 2024/11/06 13:08:54 by mde-beer       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,49 +15,7 @@
 #include <mlx.h>
 #include <stdlib.h>
 
-t_argb	*get_palette(void)
-{
-	t_argb *const	palette = ft_calloc(NUM_COLORS, sizeof(t_argb));
-
-	if (!palette)
-		return (NULL);
-	palette[0].val = COLR1;
-	palette[1].val = COLR1;
-	palette[2].val = COLR1;
-	palette[3].val = COLR1;
-	palette[4].val = COLR1;
-	return (palette);
-}
-
-t_argb	*get_gradient(t_argb colors[NUM_COLORS])
-{
-	t_argb *const	gradient = ft_calloc(MAX_ITER, sizeof(t_argb));
-	int				step;
-	int				i;
-	long double		ratio;
-
-	step = 0;
-	while (gradient && step < NUM_COLORS - 1)
-	{
-		i = 0;
-		while (i < COLOR_STEP)
-		{
-			ratio = (double)i / COLOR_STEP;
-			gradient[step * COLOR_STEP + i].r = (unsigned char)(colors[step].r \
-							+ ratio * (colors[step + 1].r - colors[step].r));
-			gradient[step * COLOR_STEP + i].g = (unsigned char)(colors[step].g \
-							+ ratio * (colors[step + 1].g - colors[step].g));
-			gradient[step * COLOR_STEP + i].b = (unsigned char)(colors[step].b \
-							+ ratio * (colors[step + 1].b - colors[step].b));
-			gradient[step * COLOR_STEP + i].a = 255;
-			i++;
-		}
-		step++;
-	}
-	return (free(colors), gradient);
-}
-
-t_mlx_box	start_window(int h, int w, char *title, t_argb colors[NUM_COLORS])
+t_mlx_box	start_window(int h, int w, char *title, t_fractal fractal)
 {
 	t_mlx_box	out;
 
@@ -65,9 +23,7 @@ t_mlx_box	start_window(int h, int w, char *title, t_argb colors[NUM_COLORS])
 	out.w = w;
 	out.zoom = ZOOM_DEFAULT;
 	out.center = (t_complex){0};
-	out.gradient = get_gradient(colors);
-	if (!(out.gradient))
-		stop_window(&out);
+	out.fractal = fractal;
 	out.base = mlx_init();
 	if (!(out.base))
 		stop_window(&out);
@@ -86,12 +42,10 @@ t_mlx_box	start_window(int h, int w, char *title, t_argb colors[NUM_COLORS])
 
 int	stop_window(t_mlx_box *box)
 {
-	if (box->gradient)
-		free(box->gradient);
-	if (box->image)
-		mlx_destroy_image(box->base, box->image);
 	if (box->window)
 		mlx_destroy_window(box->base, box->window);
+	if (box->image)
+		mlx_destroy_image(box->base, box->image);
 	if (box->base)
 	{
 		mlx_loop_end(box->base);

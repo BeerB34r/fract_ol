@@ -6,7 +6,7 @@
 /*   By: mde-beer <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/04 17:23:48 by mde-beer       #+#    #+#                */
-/*   Updated: 2024/11/04 18:25:01 by mde-beer       ########   odam.nl        */
+/*   Updated: 2024/11/06 12:53:39 by mde-beer       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,36 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <libft.h>
-#define OPTIONS_FILE "fract_ol_options.md"
+
+int	compute_fractal(t_fractal fractal, t_complex coord, t_mlx_box box)
+{
+	if (fractal.fractal == mandelbrot)
+	{
+		if (fractal.julia)
+			return (calc_julia(coord, fractal.a));
+		return (calc_julia(coord, coord));
+	}
+	else if (fractal.fractal == burning_ship)
+	{
+		if (fractal.julia)
+			return (calc_burning_ship(coord, fractal.a));
+		return (calc_burning_ship(coord, coord));
+	}
+	else if (fractal.fractal == lyapunov)
+		return (calc_lyapunov(coord, fractal.sequence, box));
+	return (-1);
+}
+
+void	process_color(t_argb *color)
+{
+	const t_argb	clr1 = (t_argb){.val = CLR1};
+
+	if (!color->val)
+		return ;
+	(*color).r = (*color).r * clr1.r / 255;
+	(*color).g = (*color).g * clr1.g / 255;
+	(*color).b = (*color).b * clr1.b / 255;
+}
 
 void	render_fractal(t_mlx_box box)
 {
@@ -23,7 +52,6 @@ void	render_fractal(t_mlx_box box)
 	int			y;
 	int			val;
 	t_argb		color;
-	t_complex	coord;
 
 	mlx_clear_window(box.base, box.window);
 	x = -1;
@@ -32,52 +60,23 @@ void	render_fractal(t_mlx_box box)
 		y = -1;
 		while (++y < box.h)
 		{
-			coord = coords_to_complex(box, x, y);
-			val = calc_julia(coord, (t_complex){.r=-0.8, .i=0.156});
-			color = box.gradient[val];
+			val = compute_fractal(box.fractal, coords_to_complex(box, x, y), \
+									box) * 255;
+			color = (t_argb){.a = 0, .r = 255 - val / MAX_ITER, \
+									.g = 255 - val / MAX_ITER, \
+									.b = 255 - val / MAX_ITER};
+			process_color(&color);
 			color_pixel(color, box, x, y);
 		}
 	}
 	mlx_put_image_to_window(box.base, box.window, box.image, 0, 0);
 }
 
-int	key_event(int keycode, t_mlx_box *box)
+void	init_fract_ol(t_fract_opts options) // TODO make this less shit
 {
-	if (keycode == 65307) // esc
-		return (stop_window(box));
-	if (keycode == 65361) // <-
-		return (move_center(box, (t_complex){-1, 0}));
-	if (keycode == 65363) // ->
-		return (move_center(box, (t_complex){1, 0}));
-	if (keycode == 65362) // ^
-		return (move_center(box, (t_complex){0, -1}));
-	if (keycode == 65364) // down
-		return (move_center(box, (t_complex){0, 1}));
-	if (keycode == 65451)
-		return (change_zoom(box, -1));
-	if (keycode == 65453)
-		return (change_zoom(box, 1));
-	if (keycode == 'r')
-		return (change_zoom(box, 0));
-	return (1);
-}
-
-void	attach_hooks(t_mlx_box *box)
-{
-	mlx_hook(box->window, 17, 0, stop_window, box);
-	mlx_key_hook(box->window, key_event, box);
-}
-
-void	init_fract_ol(void) // TODO make this less shit
-{
-	t_argb *const	palette = get_palette();
 	t_mlx_box		box;
 
-	if (!palette)
-		exit(1);
-	box = start_window(600, 600,\
-						"Mario:tm: and Sonic:tm: at the Olympic games:tm:",\
-						palette);
+	box = start_window(options.h, options.w, options.t, options.parameters);
 	render_fractal(box);
 	attach_hooks(&box);
 	mlx_loop(box.base);
@@ -85,7 +84,7 @@ void	init_fract_ol(void) // TODO make this less shit
 
 int	main(int argc, char **argv) // TODO make this less shit
 {
-	(void)argc;
-	(void)argv;
-	init_fract_ol();
+	const t_fract_opts	options = get_options(argc, argv);
+
+	init_fract_ol(options);
 }

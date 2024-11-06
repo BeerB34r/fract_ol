@@ -31,7 +31,7 @@ t_complex	coords_to_complex(t_mlx_box box, int x, int y)
 	t_complex	out;
 
 	out.r = (long double)(x - box.w / 2) / (box.w / 4);
-	out.i = (long double)(y - box.h / 2) / (box.w / 4);
+	out.i = (long double)(y - box.h / 2) / (box.h / 4);
 	out = multiply(out, (t_complex){.r = box.zoom, .i = 0});
 	out = add(out, box.center);
 	return (out);

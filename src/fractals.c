@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                         ::::::::           */
+/*   fractals.c                                          :+:    :+:           */
+/*                                                      +:+                   */
+/*   By: mde-beer <marvin@42.fr>                       +#+                    */
+/*                                                    +#+                     */
+/*   Created: 2024/11/06 11:12:44 by mde-beer       #+#    #+#                */
+/*   Updated: 2024/11/06 11:17:55 by mde-beer       ########   odam.nl        */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fract_ol.h"
 #include <math.h>
 #include <string.h>
@@ -12,12 +24,6 @@ int	calc_julia(t_complex point, t_complex constant)
 	while (get_distance((t_complex){0}, value) < 2.0 && ++iterations < MAX_ITER)
 		value = add(complex_power(value, 2), constant);
 	return (iterations);
-}
-
-int	calc_mandelbrot(t_complex point, t_complex constant)
-{
-	(void)constant;
-	return (calc_julia(point, point));
 }
 
 int	calc_burning_ship(t_complex point, t_complex constant)
@@ -36,15 +42,11 @@ int	calc_burning_ship(t_complex point, t_complex constant)
 	return (iterations);
 }
 
-#define LYUPANOV_SEQUENCE "ABABAB"
-
-int calc_lyupanov(t_complex point, t_mlx_box box)
+int	calc_lyapunov(t_complex point, char *sequence, t_mlx_box box)
 {
-	const t_complex	ab = {.r = point.r * 4.0 / box.w, \
-							.i = point.i * 4.0 / box.h};
 	long double			value;
 	long double			sum;
-	const int			limit = strlen(LYUPANOV_SEQUENCE);
+	const int			limit = ft_strlen(sequence);
 	int					iterations;
 
 	value = 0.5;
@@ -52,15 +54,15 @@ int calc_lyupanov(t_complex point, t_mlx_box box)
 	sum = 0.0;
 	while (++iterations < MAX_ITER)
 	{
-		if (LYUPANOV_SEQUENCE[iterations % limit] == 'A')
+		if (sequence[iterations % limit] == 'A')
 		{
-			value = ab.r * value * (1 - value);
-			sum += logl(fabsl(ab.r * (1 - 2 * value)));
+			value = (point.r * 4.0 / box.w) * value * (1 - value);
+			sum += logl(fabsl((point.r * 4.0 / box.w) * (1 - 2 * value)));
 		}
 		else
 		{
-			value = ab.i * value * (1 - value);
-			sum += logl(fabsl(ab.i * (1 - 2 * value)));
+			value = (point.i * 4.0 / box.h) * value * (1 - value);
+			sum += logl(fabsl((point.i * 4.0 / box.h) * (1 - 2 * value)));
 		}
 	}
 	if (sum / MAX_ITER < 0)
