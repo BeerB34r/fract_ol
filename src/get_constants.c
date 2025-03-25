@@ -33,36 +33,30 @@ static void	get_lyapunov_consts(t_fract_opts *options, \
 static void	get_mandelbrot_consts(t_fract_opts *options, \
 									char **argv, int argc, int *index)
 {
-	t_complex	a;
+	complex double	a;
 
 	if (*index < argc - 1)
 	{
-		a.r = ft_atold(argv[(*index)++]);
-		a.i = ft_atold(argv[(*index)++]);
+		a = ft_atold(argv[(*index)++]);
+		a += I * ft_atold(argv[(*index)++]);
 	}
 	else
-	{
-		a.r = -0.744;
-		a.i = 0.148;
-	}
+		a = -0.744 + I * 0.148;
 	options->parameters.a = a;
 }
 
 static void	get_burning_consts(t_fract_opts *options, \
 									char **argv, int argc, int *index)
 {
-	t_complex	a;
+	complex double	a;
 
 	if (*index < argc - 1)
 	{
-		a.r = ft_atold(argv[(*index)++]);
-		a.i = ft_atold(argv[(*index)++]);
+		a = ft_atold(argv[(*index)++]);
+		a += I * ft_atold(argv[(*index)++]);
 	}
 	else
-	{
-		a.r = -0.744;
-		a.i = 0.148;
-	}
+		a = -0.744 + I * 0.148;
 	options->parameters.a = a;
 }
 

@@ -12,15 +12,10 @@
 
 #ifndef FRACT_OL_H
 # define FRACT_OL_H
-# include <mlx.h>
+# include "mlx.h"
+# include "libft.h"
 # include <stdint.h>
-# include <libft.h>
-
-typedef struct s_complex_number
-{
-	long double	r;
-	long double	i;
-}	t_complex;
+# include <complex.h>
 
 typedef union u_argb_val
 {
@@ -45,8 +40,8 @@ typedef struct s_fractal_specification
 {
 	enum e_fractals	fractal;
 	enum e_bool		julia;
-	t_complex		a;
-	t_complex		b;
+	complex double	a;
+	complex double	b;
 	char			*sequence;
 }	t_fractal;
 
@@ -59,7 +54,7 @@ typedef struct s_mlx_values
 	int				h;
 	int				w;
 	long double		zoom;
-	t_complex		center;
+	complex double	center;
 	int				pixel_bits;
 	int				image_width;
 	int				endian;
@@ -96,13 +91,13 @@ void			set_constants(t_fract_opts *options);
 t_fract_opts	get_options(int argc, char **argv, int index);
 // fractals
 void			render_fractal(t_mlx_box box);
-int				calc_julia(t_complex point, t_complex constant);
-int				calc_burning_ship(t_complex point, t_complex constant);
-int				calc_lyapunov(t_complex point, char *sequence, t_mlx_box box);
+int				calc_julia(complex double point, complex double constant);
+int				calc_burning_ship(complex double point, complex double constant);
+int				calc_lyapunov(complex double point, char *sequence, t_mlx_box box);
 // movement functions
 int				change_zoom(t_mlx_box *box, int direction);
-int				move_center(t_mlx_box *box, t_complex vector);
-t_complex		coords_to_complex(t_mlx_box box, int x, int y);
+int				move_center(t_mlx_box *box, complex double vector);
+complex double		coords_to_complex(t_mlx_box box, int x, int y);
 // mlx window helpers
 t_mlx_box		start_window(int h, int w, char *title, t_fractal fractal);
 int				stop_window(t_mlx_box *box);
@@ -111,10 +106,6 @@ int				key_event(int keycode, t_mlx_box *box);
 int				mouse_event(int keycode, int x, int y, t_mlx_box *box);
 void			attach_hooks(t_mlx_box *box);
 // complex number arithmetic
-t_complex		multiply(t_complex a, t_complex b);
-t_complex		add(t_complex a, t_complex b);
-t_complex		conjugate(t_complex a);
-t_complex		complex_power(t_complex base, int power);
-long double		get_distance(t_complex a, t_complex b);
+long double		get_distance(complex double a, complex double b);
 long double		ft_atold(char *string);
 #endif

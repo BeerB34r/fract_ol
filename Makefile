@@ -1,7 +1,7 @@
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror -O3
 SRC_LIT		=	main.c fractals.c window_utils.c movement.c \
-				complex_math.c hooks.c get_options.c get_constants.c ft_atold.c
+				hooks.c get_options.c get_constants.c ft_atold.c complex_math.c
 SRC_DIR		=	src
 SRCS		=	$(addprefix $(SRC_DIR)/,$(SRC_LIT))
 OBJS		=	$(SRCS:.c=.o)
@@ -10,7 +10,7 @@ LIBMLX		=	libmlx/libmlx.a
 LIBOTHER	=	-lX11 -lXext -lm
 LIBS		=	$(LIBFT) $(LIBMLX) $(LIBOTHER)
 INCL		=	-I ./include -I ./libft/include -I ./libmlx
-NAME		=	fract_ol.out
+NAME		=	fract_ol
 
 all			:	$(NAME)
 

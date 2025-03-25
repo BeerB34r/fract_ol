@@ -18,13 +18,13 @@ int	key_event(int keycode, t_mlx_box *box)
 	if (keycode == K_ESC || keycode == 'q')
 		return (stop_window(box));
 	else if (keycode == K_AR_L || keycode == 'a')
-		return (move_center(box, (t_complex){-1, 0}));
+		return (move_center(box, (complex double)(-1 + I * 0)));
 	else if (keycode == K_AR_R || keycode == 'd')
-		return (move_center(box, (t_complex){1, 0}));
+		return (move_center(box, (complex double)(1 + I * 0)));
 	else if (keycode == K_AR_U || keycode == 'w')
-		return (move_center(box, (t_complex){0, -1}));
+		return (move_center(box, (complex double)(0 + I * -1)));
 	else if (keycode == K_AR_D || keycode == 's')
-		return (move_center(box, (t_complex){0, 1}));
+		return (move_center(box, (complex double)(0 + I * 1)));
 	else if (keycode == K_NP_PLU || keycode == K_PLUS)
 		return (change_zoom(box, -1));
 	else if (keycode == K_NP_MIN || keycode == K_MINUS)

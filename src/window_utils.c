@@ -22,7 +22,7 @@ t_mlx_box	start_window(int h, int w, char *title, t_fractal fractal)
 	out.h = h;
 	out.w = w;
 	out.zoom = ZOOM_DEFAULT;
-	out.center = (t_complex){0};
+	out.center = 0;
 	out.fractal = fractal;
 	out.base = mlx_init();
 	if (!(out.base))
