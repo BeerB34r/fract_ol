@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <libft.h>
 
-int	compute_fractal(t_fractal fractal, t_complex coord, t_mlx_box box)
+int	compute_fractal(t_fractal fractal, double complex coord, t_mlx_box box)
 {
 	if (fractal.fractal == mandelbrot)
 	{
